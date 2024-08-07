@@ -14,7 +14,7 @@ class VelodyneImageProcessor:
         self.bridge = CvBridge()
         self.image_pub = rospy.Publisher("/reflectivity_image", Image, queue_size=10)
         
-        self.maxlen = rospy.get_param("/maxlen", 100)
+        self.maxlen = rospy.get_param("/maxlen", 500)
         self.minlen = rospy.get_param("/minlen", 0.1)
         self.angular_resolution_x = rospy.get_param("/angular_resolution_x", 0.25)
         self.angular_resolution_y = rospy.get_param("/angular_resolution_y", 0.85)
@@ -67,7 +67,7 @@ def main():
     frame_id = rospy.get_param("~frame_id", "velodyne")
     processor = VelodyneImageProcessor(frame_id)
 
-    pc_topic = rospy.get_param("/pcTopic", "/velodyne_points")
+    pc_topic = rospy.get_param("/pcTopic", "/pc_interpoled")
     rospy.Subscriber(pc_topic, PointCloud2, processor.callback)
     rospy.spin()
 
